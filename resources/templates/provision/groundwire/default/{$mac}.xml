@@ -1,18 +1,24 @@
 {foreach $lines as $row}
 <account>
-    <title>{$row.user_id}@{$row.server_address}</title>
-        <cloud_username>{$row.user_id}@{$row.server_address}</cloud_username>
-        <cloud_password>{$row.password}</cloud_password>
-        <authUsername>{$row.user_id}</authUsername>
-        <username>{$row.user_id}</username>
-        <password>{$row.password}</password>
-        <host>{$row.server_address}</host>
-        <proxy>{$row.server_address}:{$row.sip_port}</proxy>
-        <transport>{$row.sip_transport}</transport>
-        <extProvInterval>0</extProvInterval>
-        <voicemailNumber>*97</voicemailNumber>
-        <subscribeForVoicemail>1</subscribeForVoicemail>
-        <wsContactsUrl>https://{$row.server_address}/app/provision/index.php?address={$mac}&file=directory.json</wsContactsUrl>
+  <title>{$row.user_id}@{$row.server_address}</title>
+  <cloud_username>{$row.user_id}@{$row.server_address}</cloud_username>
+  <cloud_password>{$row.password}</cloud_password>
+  <userDisplayName>{$row.display_name}</userDisplayName>
+  <authUsername>{$row.user_id}</authUsername>
+  <username>{$row.user_id}</username>
+  <password>{$row.password}</password>
+  <host>{$row.server_address}:{$row.sip_port}</host>
+  {if $account.{$row.line_number}.sip_transport == 'udp'}<transport>udp</transport>{/if}
+  {if $account.{$row.line_number}.sip_transport == 'tcp'}<transport>tcp</transport>{/if}
+  {if $account.{$row.line_number}.sip_transport == 'tls'}<transport>tls</transport>{/if}
+  <proxy>{$row.server_address}:{$row.sip_port}</proxy>
+  <transport>{$row.sip_transport}</transport>
+  <extProvInterval>43200</extProvInterval>
+  <voiceMailNumber>{$voicemail_number}</voiceMailNumber>
+  <subscribeForVoicemail>1</subscribeForVoicemail>
+  <pushVoicemail>1</pushVoicemail>
+  <extProvUrl>https://{if isset($http_auth_username)}{$http_auth_username}:{$http_auth_password}@{/if}{$domain_name}/app/provision/index.php?address={$mac}</extProvUrl>
+  <wsContactsUrl>{if isset($http_auth_username)}{$http_auth_username}:{$http_auth_password}@{/if}{$domain_name}index.php?address={$mac}&file=directory.json</wsContactsUrl>
 </account>
 {if $row@index eq 1}{break}{/if}
 {/foreach}
