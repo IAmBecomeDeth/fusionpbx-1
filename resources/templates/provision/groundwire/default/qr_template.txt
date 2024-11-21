@@ -1,1 +1,1 @@
-provlinkbs://{$server_address}/app/provision/index.php?address={$mac}
+provlinkbs://{if isset($http_auth_username)}{$http_auth_username}:{$http_auth_password}@{/if}{$domain_name}/app/provision/index.php?address={$mac}
